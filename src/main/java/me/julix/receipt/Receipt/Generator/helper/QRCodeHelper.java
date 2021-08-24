@@ -15,10 +15,10 @@ import java.util.Map;
 
 public class QRCodeHelper {
     public static void generateQRcode(String data) throws WriterException, IOException    {
-        String path = "C:\\Users\\Julix\\Desktop\\Quote.png";
+        String path = "qrcode.png";
         String charset = "UTF-8";
-        Integer heigth = 200;
-        Integer weidth = 200;
+        Integer heigth = 150;
+        Integer weidth = 150;
         Map<EncodeHintType, ErrorCorrectionLevel> hashMap = new HashMap<EncodeHintType, ErrorCorrectionLevel>();
 
         BitMatrix matrix = new MultiFormatWriter().encode(new String(data.getBytes(charset), charset), BarcodeFormat.QR_CODE, heigth, weidth);
