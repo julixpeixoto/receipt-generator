@@ -28,13 +28,15 @@ public class Receipt {
             List<Services> services = CSVHelper.csvExtract(file.getInputStream());
 
             String md5 = HashHelper.getRandomHashMd5();
+            String tempDir = "temp/";
             String fileName = md5 + ".pdf";
+            String filePath = tempDir + fileName;
             String url = siteDomain + "//" + filesPath + "//" + fileName;
 
             QRCodeHelper.generateQRcode(url);
             PDFWriterHelper.generatePDF(services, md5);
 
-            sendEmailHelper.sendEmailWithAttachment("contato@julix.me", "Comprovante", "Teste...", fileName);
+            sendEmailHelper.sendEmailWithAttachment("contato@julix.me", "Comprovante", "Teste...", filePath);
 
             return services;
         }catch (IOException | WriterException | MessagingException e) {

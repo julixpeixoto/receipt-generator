@@ -15,7 +15,8 @@ import java.util.Map;
 
 public class QRCodeHelper {
     public static void generateQRcode(String data) throws WriterException, IOException    {
-        String path = "qrcode.png";
+        String tempDir = "temp/";
+        String path = tempDir + "qrcode.png";
         String charset = "UTF-8";
         Integer heigth = 150;
         Integer weidth = 150;

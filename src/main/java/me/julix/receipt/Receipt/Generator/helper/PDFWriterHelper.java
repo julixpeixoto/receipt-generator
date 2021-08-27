@@ -17,7 +17,8 @@ import java.util.List;
 public class PDFWriterHelper {
     public static void generatePDF(List<Services> data, String fileName) throws IOException {
         Document document = new Document();
-        final PdfWriter instance = PdfWriter.getInstance(document, new FileOutputStream(fileName+ ".pdf"));
+        String tempDir = "temp/";
+        final PdfWriter instance = PdfWriter.getInstance(document, new FileOutputStream(tempDir + fileName+ ".pdf"));
         document.open();
         instance.getInfo().put(PdfName.CREATOR, new PdfString(Document.getVersion()));
 
@@ -42,7 +43,7 @@ public class PDFWriterHelper {
         table.addCell("teste");
         document.add(table);
 
-        Image qrCode = Image.getInstance("qrcode.png");
+        Image qrCode = Image.getInstance(tempDir + "qrcode.png");
         document.add(qrCode);
 
         document.close();

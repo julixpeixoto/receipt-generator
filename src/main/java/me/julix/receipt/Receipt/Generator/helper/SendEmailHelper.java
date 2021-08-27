@@ -26,7 +26,7 @@ public class SendEmailHelper {
     @Autowired
     private JavaMailSender javaMailSender;
 
-    public void sendEmailWithAttachment(String to, String subject, String message, String fileName) throws MessagingException, IOException {
+    public void sendEmailWithAttachment(String to, String subject, String message, String filePath) throws MessagingException, IOException {
 
         MimeMessagePreparator preparator = new MimeMessagePreparator()
         {
@@ -36,9 +36,9 @@ public class SendEmailHelper {
                 mimeMessage.setFrom(new InternetAddress(email));
                 mimeMessage.setSubject(subject);
 
-                FileSystemResource file = new FileSystemResource(new File(fileName));
+                FileSystemResource file = new FileSystemResource(new File(filePath));
                 MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
-                helper.addAttachment(fileName, file, "application/pdf");
+                helper.addAttachment(filePath, file, "application/pdf");
                 helper.setText(message, true);
             }
         };
