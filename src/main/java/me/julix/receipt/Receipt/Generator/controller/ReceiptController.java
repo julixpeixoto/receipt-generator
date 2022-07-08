@@ -1,36 +1,29 @@
 package me.julix.receipt.Receipt.Generator.controller;
 
-import me.julix.receipt.Receipt.Generator.exception.FileNotSupportedException;
-import me.julix.receipt.Receipt.Generator.helper.CSVHelper;
-import me.julix.receipt.Receipt.Generator.model.Services;
-import me.julix.receipt.Receipt.Generator.service.Receipt;
+import com.google.zxing.WriterException;
+import me.julix.receipt.Receipt.Generator.dto.DataDto;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.List;
+import javax.mail.MessagingException;
+import java.io.IOException;
 
 @CrossOrigin("http://localhost:8081")
 @RestController
-@RequestMapping("/api/csv")
+@RequestMapping("/api")
 public class ReceiptController {
     @Autowired
-    Receipt fileService;
+    me.julix.receipt.Receipt.Generator.service.Receipt fileService;
 
     @PostMapping("/upload")
-    public ResponseEntity<Object> uploadFile(@RequestParam("file") MultipartFile file) {
-        if (CSVHelper.hasCSVFormat(file)) {
-            try {
-                List<Services> data = fileService.save(file);
+    public ResponseEntity<Object> generateByFile(@RequestParam("file") MultipartFile file) {
+        return fileService.generateByFile(file);
+    }
 
-                return new ResponseEntity<Object>(data, HttpStatus.CREATED);
-            } catch (Exception e) {
-                throw new RuntimeException();
-            }
-        }
-
-        throw new FileNotSupportedException();
+    @PostMapping()
+    public ResponseEntity<Object> generateByRequest(@RequestBody DataDto data) throws MessagingException, IOException, WriterException {
+        return fileService.generateByRequest(data);
     }
 }

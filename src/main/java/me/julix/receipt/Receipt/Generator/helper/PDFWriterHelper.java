@@ -15,7 +15,7 @@ import java.io.IOException;
 import java.util.List;
 
 public class PDFWriterHelper {
-    public static void generatePDF(List<Services> data, String fileName) throws IOException {
+    public static void generatePDF(List<Services> data, String fileName, String customerName) throws IOException {
         Document document = new Document();
         String tempDir = "temp/";
         final PdfWriter instance = PdfWriter.getInstance(document, new FileOutputStream(tempDir + fileName+ ".pdf"));
@@ -23,9 +23,12 @@ public class PDFWriterHelper {
         instance.getInfo().put(PdfName.CREATOR, new PdfString(Document.getVersion()));
 
         Paragraph paragraph = new Paragraph("COMPROVANTE", new Font(Font.HELVETICA, 14, Font.BOLD));
+        Paragraph customer = new Paragraph("Cliente: " + customerName, new Font(Font.HELVETICA, 12, Font.NORMAL));
         paragraph.setAlignment(1);
         paragraph.setSpacingAfter(12f);
+        customer.setSpacingAfter(12f);
         document.add(paragraph);
+        document.add(customer);
 
         PdfPTable table = null;
         table = new PdfPTable(3);
