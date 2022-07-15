@@ -2,6 +2,7 @@ package me.julix.receipt.Receipt.Generator.service;
 
 import com.google.zxing.WriterException;
 import me.julix.receipt.Receipt.Generator.dto.DataDto;
+import me.julix.receipt.Receipt.Generator.dto.ResponseDto;
 import me.julix.receipt.Receipt.Generator.exception.FileNotSupportedException;
 import me.julix.receipt.Receipt.Generator.helper.*;
 import me.julix.receipt.Receipt.Generator.model.Services;
@@ -57,7 +58,9 @@ public class Receipt {
         String filePath = generatePdf(services, data.getCustomerName());
         sendEmail(filePath, data.getCustomerEmail());
 
-        return ResponseEntity.ok(services);
+        ResponseDto responseDto = new ResponseDto();
+        responseDto.setFile(filePath);
+        return ResponseEntity.ok(responseDto);
     }
 
     private String generatePdf(List<Services> services, String customerName) throws IOException, WriterException, MessagingException {

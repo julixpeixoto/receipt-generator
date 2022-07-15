@@ -10,7 +10,6 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.mail.MessagingException;
 import java.io.IOException;
 
-@CrossOrigin("http://localhost:8081")
 @RestController
 @RequestMapping("/api")
 public class ReceiptController {
