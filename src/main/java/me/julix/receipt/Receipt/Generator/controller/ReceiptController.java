@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.mail.MessagingException;
+import javax.validation.Valid;
 import java.io.IOException;
 
 @RestController
@@ -22,7 +23,7 @@ public class ReceiptController {
     }
 
     @PostMapping()
-    public ResponseEntity<Object> generateByRequest(@RequestBody DataDto data) throws MessagingException, IOException, WriterException {
+    public ResponseEntity<Object> generateByRequest(@Valid @RequestBody DataDto data) throws MessagingException, IOException, WriterException {
         return fileService.generateByRequest(data);
     }
 }
