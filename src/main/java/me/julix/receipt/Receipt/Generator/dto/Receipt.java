@@ -3,16 +3,17 @@ package me.julix.receipt.Receipt.Generator.dto;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
 @Data
 public class Receipt {
-    @NotBlank
+    @NotNull
     private LocalDate date;
 
     @NotBlank
     private String description;
 
-    @NotBlank
+    @NotNull
     private Float value;
 }
