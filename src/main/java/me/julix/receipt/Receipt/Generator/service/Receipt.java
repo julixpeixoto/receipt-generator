@@ -48,7 +48,7 @@ public class Receipt {
 
         data.getReceipts().forEach(receipt -> {
             Services service = new Services();
-            service.setData(receipt.getDate().toString());
+            service.setData(DateTimeHelper.dateToDDMMYYYY(receipt.getDate()));
             service.setDescricao(receipt.getDescription());
             service.setValor(receipt.getValue().toString());
 
