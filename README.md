@@ -30,7 +30,10 @@ POST /api
 ```
 {
     "customerName": "XPTO",
+    "receiverName": "ACME",
     "customerEmail": "email@xpto.com",
+    "paymentMethod": "PIX",
+    "paymentDate": "01/01/2024",
     "receipts": [
         {
             "date": "2022-05-14",

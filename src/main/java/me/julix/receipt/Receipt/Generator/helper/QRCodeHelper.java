@@ -18,8 +18,8 @@ public class QRCodeHelper {
         String tempDir = "temp/";
         String path = tempDir + "qrcode.png";
         String charset = "UTF-8";
-        Integer heigth = 150;
-        Integer weidth = 150;
+        Integer heigth = 100;
+        Integer weidth = 100;
         Map<EncodeHintType, ErrorCorrectionLevel> hashMap = new HashMap<EncodeHintType, ErrorCorrectionLevel>();
 
         BitMatrix matrix = new MultiFormatWriter().encode(new String(data.getBytes(charset), charset), BarcodeFormat.QR_CODE, heigth, weidth);

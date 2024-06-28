@@ -15,6 +15,14 @@ public class DataDto {
     @NotBlank
     private String customerEmail;
 
+    @NotBlank
+    private String receiverName;
+
+    @NotBlank
+    private String paymentMethod;
+
+    private String paymentDate;
+
     @NotNull
     private List<@Valid Receipt> receipts;
 }

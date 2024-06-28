@@ -14,8 +14,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.mail.MessagingException;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class Receipt {
@@ -35,7 +37,7 @@ public class Receipt {
 
         try{
             List<Services> services = CSVHelper.csvExtract(file.getInputStream());
-            generatePdf(services, "");
+            generatePdf(services, "", "", "", "", new BigDecimal(0));
 
             return ResponseEntity.ok(services);
         } catch (IOException | WriterException | MessagingException e) {
@@ -51,27 +53,30 @@ public class Receipt {
             service.setData(DateTimeHelper.dateToDDMMYYYY(receipt.getDate()));
             service.setDescricao(receipt.getDescription());
             service.setValor(receipt.getValue().toString());
-
             services.add(service);
         });
 
-        String filePath = generatePdf(services, data.getCustomerName());
-        sendEmail(filePath, data.getCustomerEmail());
+        BigDecimal totalValue = data.getReceipts().stream()
+                .map(receipt -> BigDecimal.valueOf(receipt.getValue()))
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+
+        String filePath = generatePdf(services, data.getCustomerName(), data.getReceiverName(), data.getPaymentMethod(), data.getPaymentDate(), totalValue);
+        //sendEmail(filePath, data.getCustomerEmail());
 
         ResponseDto responseDto = new ResponseDto();
         responseDto.setFile(filePath);
         return ResponseEntity.ok(responseDto);
     }
 
-    private String generatePdf(List<Services> services, String customerName) throws IOException, WriterException, MessagingException {
-        String md5 = HashHelper.getRandomHashMd5();
+    private String generatePdf(List<Services> services, String customerName, String receiverName, String paymentMethod, String paymentDate, BigDecimal total) throws IOException, WriterException, MessagingException {
+        UUID uuid = UUID.randomUUID();
         String tempDir = "temp/";
-        String fileName = md5 + ".pdf";
+        String fileName = uuid + ".pdf";
         String filePath = tempDir + fileName;
-        String url = siteDomain + "//" + filesPath + "//" + fileName;
+        String url = siteDomain + "/" + filesPath + "/" + fileName;
 
         QRCodeHelper.generateQRcode(url);
-        PDFWriterHelper.generatePDF(services, md5, customerName);
+        PDFWriterHelper.generatePDF(services, uuid.toString(), customerName, receiverName, paymentMethod, paymentDate, total);
 
         return filePath;
     }
